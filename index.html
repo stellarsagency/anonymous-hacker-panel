@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f0f1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Anonymous Hacker</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-page">
+        <!-- Left Side -->
+        <div class="left-side">
+            <div class="left-content">
+                <div class="brand">
+                    <div class="brand-logo">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <h1>Anonymous <span>Hacker</span></h1>
+                </div>
+                <p class="tagline">Advanced Cyber Intelligence Platform</p>
+
+                <div class="benefits">
+                    <div class="benefit">
+                        <div class="benefit-icon"><i class="fas fa-shield-halved"></i></div>
+                        <div>
+                            <h4>100% Secure</h4>
+                            <p>End-to-end encrypted connections</p>
+                        </div>
+                    </div>
+                    <div class="benefit">
+                        <div class="benefit-icon"><i class="fas fa-bolt"></i></div>
+                        <div>
+                            <h4>Fast Execution</h4>
+                            <p>Real-time module processing</p>
+                        </div>
+                    </div>
+                    <div class="benefit">
+                        <div class="benefit-icon"><i class="fas fa-headset"></i></div>
+                        <div>
+                            <h4>24/7 Support</h4>
+                            <p>Always available to help you</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"Amazing platform! Very professional and reliable service."</p>
+                    <span class="reviewer">— Ahmed K., Verified User</span>
+                </div>
+            </div>
+            <div class="left-decoration">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+            </div>
+        </div>
+
+        <!-- Right Side - Login -->
+        <div class="right-side">
+            <div class="login-container">
+                <div class="login-header">
+                    <h2>Welcome back</h2>
+                    <p>Sign in to your account to continue</p>
+                </div>
+
+                <div class="terminal-status">
+                    <div class="t-dot"></div>
+                    <span class="t-text">Secure connection established</span>
+                    <span class="t-cursor">_</span>
+                </div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <div class="input-box">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="username" placeholder="Enter your username" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-box">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" placeholder="Enter your password" required autocomplete="off">
+                            <button type="button" class="eye-btn" id="togglePass">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <label class="remember">
+                            <input type="checkbox">
+                            <span class="check"></span>
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="login-btn" id="loginBtn">
+                        <span class="btn-label">Sign In</span>
+                        <span class="btn-spinner"><i class="fas fa-circle-notch fa-spin"></i></span>
+                    </button>
+
+                    <div class="error-box" id="errorMsg">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Invalid username or password</span>
+                    </div>
+                </form>
+
+                <div class="login-footer">
+                    <div class="secure-line">
+                        <i class="fas fa-lock"></i>
+                        <span>Secured with 256-bit SSL Encryption</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#f1f5f9">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Anonymous Hacker — Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <div class="logo-icon"><i class="fas fa-user-secret"></i></div>
+                <span class="logo-text">Anonymous<span>Hacker</span></span>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <div class="menu-label">Main</div>
+            <a href="#" class="menu-item active">
+                <i class="fas fa-th-large"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-rocket"></i>
+                <span>Modules</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-terminal"></i>
+                <span>Console</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-database"></i>
+                <span>Database</span>
+            </a>
+
+            <div class="menu-label">Tools</div>
+            <a href="#" class="menu-item">
+                <i class="fas fa-globe"></i>
+                <span>Proxies</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-clock-rotate-left"></i>
+                <span>History</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-gear"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="upgrade-card">
+                <div class="upgrade-icon"><i class="fas fa-crown"></i></div>
+                <h4>Upgrade Plan</h4>
+                <p>Get access to all premium modules</p>
+                <button class="upgrade-btn">Upgrade Now</button>
+            </div>
+            <div class="server-status">
+                <div class="status-dot"></div>
+                <span>All systems operational</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+        <!-- Topbar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="mobile-menu" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search modules...">
+                </div>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-badge">
+                    <i class="fas fa-shield-check"></i>
+                    <span>Protected</span>
+                </div>
+                <div class="topbar-badge live-badge">
+                    <div class="live-dot"></div>
+                    <span>Live</span>
+                </div>
+                <div class="topbar-user">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name" id="navUser">OPERATOR</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                    <button class="logout-btn" id="logoutBtn" title="Sign Out">
+                        <i class="fas fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <div class="welcome-text">
+                    <h1>Welcome back, <span id="userName">Operator</span> 👋</h1>
+                    <p>Select a module below to begin your operation</p>
+                </div>
+                <div class="welcome-stats">
+                    <div class="w-stat">
+                        <span class="w-stat-num">24</span>
+                        <span class="w-stat-label">Modules</span>
+                    </div>
+                    <div class="w-stat-divider"></div>
+                    <div class="w-stat">
+                        <span class="w-stat-num">12</span>
+                        <span class="w-stat-label">Servers</span>
+                    </div>
+                    <div class="w-stat-divider"></div>
+                    <div class="w-stat">
+                        <span class="w-stat-num" id="sessionTimer">30:00</span>
+                        <span class="w-stat-label">Session</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Status Bar -->
+            <div class="system-bar">
+                <div class="sys-item">
+                    <div class="sys-dot green"></div>
+                    <span>System Online</span>
+                </div>
+                <div class="sys-item">
+                    <span class="sys-label">UPTIME:</span>
+                    <span class="sys-value">99.9%</span>
+                </div>
+                <div class="sys-item">
+                    <span class="sys-label">PROXY:</span>
+                    <span class="sys-value sys-green">Connected</span>
+                </div>
+                <div class="sys-item">
+                    <span class="sys-label">ENCRYPTION:</span>
+                    <span class="sys-value">AES-256</span>
+                </div>
+                <div class="sys-item terminal-text">
+                    <span class="sys-prompt">$</span>
+                    <span class="sys-cmd">panel --status</span>
+                    <span class="sys-cursor">_</span>
+                </div>
+            </div>
+
+            <!-- Social Media -->
+            <div class="section">
+                <div class="section-head">
+                    <div>
+                        <h2>Social Media</h2>
+                        <p>Access social media accounts and extract data</p>
+                    </div>
+                </div>
+                <div class="cards-grid">
+                    <div class="card" data-target="Facebook">
+                        <div class="card-icon fb"><i class="fab fa-facebook-f"></i></div>
+                        <h3>Facebook</h3>
+                        <p>Full account access, messages, photos, and data extraction</p>
+                        <div class="card-meta">
+                            <span class="tag tag-green">Ready</span>
+                            <span class="version">v3.2</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="Instagram">
+                        <div class="card-icon ig"><i class="fab fa-instagram"></i></div>
+                        <h3>Instagram</h3>
+                        <p>DMs, photos, stories, reels, and profile data</p>
+                        <div class="card-meta">
+                            <span class="tag tag-green">Ready</span>
+                            <span class="version">v3.1</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="Snapchat">
+                        <div class="card-icon sc"><i class="fab fa-snapchat-ghost"></i></div>
+                        <h3>Snapchat</h3>
+                        <p>Snap history, conversations, and media files</p>
+                        <div class="card-meta">
+                            <span class="tag tag-green">Ready</span>
+                            <span class="version">v2.9</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="TikTok">
+                        <div class="card-icon tt"><i class="fab fa-tiktok"></i></div>
+                        <h3>TikTok</h3>
+                        <p>Account data, analytics, and video content</p>
+                        <div class="card-meta">
+                            <span class="tag tag-green">Ready</span>
+                            <span class="version">v2.5</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WhatsApp -->
+            <div class="section">
+                <div class="section-head">
+                    <div>
+                        <h2>Number Search Hack</h2>
+                        <p>Complete number search and management tools</p>
+                    </div>
+                </div>
+                <div class="cards-grid">
+                    <div class="card" data-target="WhatsApp">
+                        <div class="card-icon wa"><i class="fab fa-whatsapp"></i></div>
+                        <h3>WhatsApp Number Search</h3>
+                        <p>Messages, media, call logs, and status extraction</p>
+                        <div class="card-meta">
+                            <span class="tag tag-green">Ready</span>
+                            <span class="version">v4.0</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="WhatsApp Ban">
+                        <div class="card-icon ban"><i class="fas fa-ban"></i></div>
+                        <h3>WhatsApp Ban</h3>
+                        <p>Permanent number ban attack module</p>
+                        <div class="card-meta">
+                            <span class="tag tag-yellow">Advanced</span>
+                            <span class="version">v2.3</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="WhatsApp Unban">
+                        <div class="card-icon unban"><i class="fas fa-unlock"></i></div>
+                        <h3>WhatsApp Unban</h3>
+                        <p>Restore banned numbers instantly</p>
+                        <div class="card-meta">
+                            <span class="tag tag-yellow">Advanced</span>
+                            <span class="version">v2.1</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="UK WhatsApp OTP">
+                        <div class="card-icon otp"><i class="fas fa-key"></i></div>
+                        <h3>UK WhatsApp OTP</h3>
+                        <p>SIM database OTP intercept and bypass</p>
+                        <div class="card-meta">
+                            <span class="tag tag-purple">Premium</span>
+                            <span class="version">v1.8</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="SIM Database">
+                        <div class="card-icon sim"><i class="fas fa-sim-card"></i></div>
+                        <h3>SIM Database</h3>
+                        <p>Full SIM record and carrier data extraction</p>
+                        <div class="card-meta">
+                            <span class="tag tag-purple">Premium</span>
+                            <span class="version">v1.5</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phone Access -->
+            <div class="section">
+                <div class="section-head">
+                    <div>
+                        <h2>Phone Access</h2>
+                        <p>Device access and data extraction tools</p>
+                    </div>
+                </div>
+                <div class="cards-grid">
+                    <div class="card" data-target="Phone Hack">
+                        <div class="card-icon phone"><i class="fas fa-mobile-retro"></i></div>
+                        <h3>Phone Hack</h3>
+                        <p>Full device root and admin access</p>
+                        <div class="card-meta">
+                            <span class="tag tag-green">Ready</span>
+                            <span class="version">v3.7</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="Gallery Hack">
+                        <div class="card-icon gallery"><i class="fas fa-images"></i></div>
+                        <h3>Gallery Hack</h3>
+                        <p>Photos, videos, and hidden media files</p>
+                        <div class="card-meta">
+                            <span class="tag tag-green">Ready</span>
+                            <span class="version">v2.8</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="Contact List">
+                        <div class="card-icon contacts"><i class="fas fa-address-book"></i></div>
+                        <h3>Contact List</h3>
+                        <p>Extract all saved contacts from device</p>
+                        <div class="card-meta">
+                            <span class="tag tag-green">Ready</span>
+                            <span class="version">v2.4</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="Live Location">
+                        <div class="card-icon location"><i class="fas fa-location-crosshairs"></i></div>
+                        <h3>Live Location</h3>
+                        <p>Real-time GPS tracking and location history</p>
+                        <div class="card-meta">
+                            <span class="tag tag-green">Ready</span>
+                            <span class="version">v3.0</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Tools -->
+            <div class="section">
+                <div class="section-head">
+                    <div>
+                        <h2>Advanced Tools</h2>
+                        <p>Professional intelligence and tracking tools</p>
+                    </div>
+                </div>
+                <div class="cards-grid">
+                    <div class="card" data-target="IMEI Tracking">
+                        <div class="card-icon imei"><i class="fas fa-fingerprint"></i></div>
+                        <h3>IMEI Tracking</h3>
+                        <p>Track any device by its IMEI number</p>
+                        <div class="card-meta">
+                            <span class="tag tag-yellow">Advanced</span>
+                            <span class="version">v2.2</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="Fake Account Ban">
+                        <div class="card-icon ban-acc"><i class="fas fa-user-slash"></i></div>
+                        <h3>Fake Account Ban</h3>
+                        <p>Report and ban fake profiles automatically</p>
+                        <div class="card-meta">
+                            <span class="tag tag-green">Ready</span>
+                            <span class="version">v1.9</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="Fake Account Details">
+                        <div class="card-icon details"><i class="fas fa-id-card"></i></div>
+                        <h3>Fake Account Details</h3>
+                        <p>Retrieve owner information from any profile</p>
+                        <div class="card-meta">
+                            <span class="tag tag-green">Ready</span>
+                            <span class="version">v1.7</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="Family Tree">
+                        <div class="card-icon family"><i class="fas fa-sitemap"></i></div>
+                        <h3>Family Tree</h3>
+                        <p>Complete family background and connections</p>
+                        <div class="card-meta">
+                            <span class="tag tag-purple">Premium</span>
+                            <span class="version">v1.3</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+
+                    <div class="card" data-target="CNIC Copy">
+                        <div class="card-icon cnic"><i class="fas fa-id-badge"></i></div>
+                        <h3>CNIC Copy</h3>
+                        <p>National ID card data extraction</p>
+                        <div class="card-meta">
+                            <span class="tag tag-purple">Premium</span>
+                            <span class="version">v1.1</span>
+                        </div>
+                        <button class="card-btn">Search Hack</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact WhatsApp -->
+            <div class="contact-section">
+                <div class="contact-card">
+                    <div class="contact-left">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <h3>Need Help?</h3>
+                            <p>Contact us on WhatsApp for support or custom requests</p>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/923174130091" target="_blank" class="contact-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        Contact WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scan Modal -->
+    <div class="modal-overlay" id="scanModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title-row">
+                    <div class="modal-icon"><i class="fas fa-rocket"></i></div>
+                    <div>
+                        <h2 id="modalTitle">Running Module...</h2>
+                        <p id="modalSubtitle">Executing operation — please wait</p>
+                    </div>
+                </div>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="progress-section">
+                    <div class="progress-head">
+                        <span>Progress</span>
+                        <span id="progressText">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <div class="log-section">
+                    <div class="log-header">
+                        <div class="log-dots">
+                            <span class="ld red"></span>
+                            <span class="ld yellow"></span>
+                            <span class="ld green"></span>
+                        </div>
+                        <span class="log-title">Operation Log</span>
+                    </div>
+                    <div class="log-output" id="scanLog"></div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="m-btn m-btn-cancel" id="modalCancel">Cancel</button>
+                <button class="m-btn m-btn-primary" id="viewResultBtn" style="display:none;">
+                    <i class="fas fa-arrow-up-right-from-square"></i> View Result
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

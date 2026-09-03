@@ -87,55 +87,52 @@ function getLogs(target, value) {
     ];
 }
 
-// Card click handler
+// Card click - focus input only
 document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', function(e) {
-        // Don't open modal if clicking input field
-        if (e.target.classList.contains('card-field')) return;
-
+        if (e.target.classList.contains('card-btn')) return;
         const field = this.querySelector('.card-field');
+        if (field) field.focus();
+    });
+});
+
+// Search Hack button - triggers scan
+document.querySelectorAll('.card-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const card = btn.closest('.card');
+        const field = card.querySelector('.card-field');
         const value = field ? field.value.trim() : '';
 
-        // Validate input
         if (!value) {
             field.style.borderColor = '#ef4444';
             field.style.boxShadow = '0 0 0 2px rgba(239,68,68,0.15)';
             field.placeholder = '⚠ Please enter required info!';
             field.focus();
-
-            // Shake animation
             field.style.animation = 'shake 0.4s ease';
             setTimeout(() => {
                 field.style.borderColor = '';
                 field.style.boxShadow = '';
                 field.style.animation = '';
-                if (field.dataset.target === 'Phone Hack') field.placeholder = 'Gmail ya Number Add';
-                else if (field.dataset.target === 'Gallery Hack') field.placeholder = 'Mobile On Number Add';
-                else if (field.dataset.target === 'Contact List') field.placeholder = 'SIM Active Number Add';
-                else if (field.dataset.target === 'Live Location') field.placeholder = 'Number Add';
-                else if (field.dataset.target === 'IMEI Tracking') field.placeholder = 'IMEI Number Add';
-                else if (field.dataset.target === 'Fake Account Ban' || field.dataset.target === 'Fake Account Details') field.placeholder = 'Profile Link Add';
-                else if (field.dataset.target === 'Family Tree') field.placeholder = 'CNIC or Name Add';
-                else if (field.dataset.target === 'CNIC Copy') field.placeholder = 'CNIC Number Add';
-                else if (field.closest('.card').querySelector('h3').textContent.includes('WhatsApp') || field.closest('.card').querySelector('h3').textContent.includes('SIM')) field.placeholder = 'Enter Number';
+                if (card.dataset.target === 'Phone Hack') field.placeholder = 'Gmail ya Number Add';
+                else if (card.dataset.target === 'Gallery Hack') field.placeholder = 'Mobile On Number Add';
+                else if (card.dataset.target === 'Contact List') field.placeholder = 'SIM Active Number Add';
+                else if (card.dataset.target === 'Live Location') field.placeholder = 'Number Add';
+                else if (card.dataset.target === 'IMEI Tracking') field.placeholder = 'IMEI Number Add';
+                else if (card.dataset.target === 'Fake Account Ban' || card.dataset.target === 'Fake Account Details') field.placeholder = 'Profile Link Add';
+                else if (card.dataset.target === 'Family Tree') field.placeholder = 'CNIC or Name Add';
+                else if (card.dataset.target === 'CNIC Copy') field.placeholder = 'CNIC Number Add';
+                else if (card.querySelector('h3').textContent.includes('WhatsApp') || card.querySelector('h3').textContent.includes('SIM')) field.placeholder = 'Enter Number';
                 else field.placeholder = 'Enter Username';
             }, 2000);
             return;
         }
 
-        currentTarget = this.dataset.target;
+        currentTarget = card.dataset.target;
         currentValue = value;
         modalTitle.textContent = `Searching ${currentTarget}...`;
         modalSubtitle.textContent = `Target: ${value}`;
         openModal();
-    });
-});
-
-// Search Hack button
-document.querySelectorAll('.card-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        btn.closest('.card').click();
     });
 });
 

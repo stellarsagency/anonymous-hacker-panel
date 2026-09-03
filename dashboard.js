@@ -41,30 +41,8 @@ const viewResultBtn = document.getElementById('viewResultBtn');
 // CHANGE THIS TO CLIENT'S WHATSAPP NUMBER
 const whatsappNumber = '923174130091';
 
-function getLogs(target) {
-    return [
-        { text: `[INFO] Module "${target}" initialized`, type: 'info' },
-        { text: `[CONN] Connecting to secure proxy...`, type: '' },
-        { text: `[CONN] Connected — Node: US-East-1`, type: 'success' },
-        { text: `[SCAN] Resolving target DNS...`, type: '' },
-        { text: `[SCAN] IP: ${rand()}.${rand()}.${rand()}.${rand()}`, type: '' },
-        { text: `[AUTH] Handshake authentication...`, type: '' },
-        { text: `[AUTH] Token: ${token()}`, type: 'info' },
-        { text: `[SCAN] Port scan — ${r(10,60)} open services`, type: '' },
-        { text: `[VULN] Analyzing attack vectors...`, type: 'warning' },
-        { text: `[VULN] ${r(2,10)} vulnerabilities found`, type: 'warning' },
-        { text: `[EXP] Deploying exploit module...`, type: '' },
-        { text: `[EXP] Bypass security 1/3...`, type: '' },
-        { text: `[EXP] Bypass security 2/3...`, type: '' },
-        { text: `[EXP] Bypass security 3/3 — OK`, type: 'success' },
-        { text: `[DATA] Establishing encrypted channel...`, type: '' },
-        { text: `[DATA] Intercepted — ${r(100,600)} MB data`, type: 'success' },
-        { text: `[PROC] Processing extracted data...`, type: '' },
-        { text: `[PROC] Decrypting payload...`, type: '' },
-        { text: `[DONE] Operation completed`, type: 'success' },
-        { text: `[DONE] Results ready for review`, type: 'success' },
-    ];
-}
+let currentTarget = '';
+let currentValue = '';
 
 function rand() { return Math.floor(Math.random()*255); }
 function r(a,b) { return Math.floor(Math.random()*(b-a)+a); }
@@ -78,21 +56,96 @@ function token() {
     return t;
 }
 
-let currentTarget = '';
+// Get realistic logs based on target and entered value
+function getLogs(target, value) {
+    const isPhone = /^[\d+\-\s()]{7,15}$/.test(value);
+    const isEmail = /@/.test(value);
+    const isUsername = !isPhone && !isEmail;
 
+    return [
+        { text: `[INIT] Module "${target}" loaded`, type: 'info' },
+        { text: `[CONN] Connecting to secure proxy...`, type: '' },
+        { text: `[CONN] Connected — Node: US-East-${r(1,5)}`, type: 'success' },
+        { text: `[SCAN] Target: ${value}`, type: 'info' },
+        { text: `[SCAN] Type: ${isPhone ? 'Phone Number' : isEmail ? 'Email' : 'Username'}`, type: '' },
+        { text: `[SCAN] Resolving target...`, type: '' },
+        { text: `[SCAN] IP: ${rand()}.${rand()}.${rand()}.${rand()}`, type: '' },
+        { text: `[AUTH] Session token: ${token()}`, type: 'info' },
+        { text: `[SCAN] Port scan — ${r(10,60)} open services`, type: '' },
+        { text: `[VULN] Analyzing attack vectors...`, type: 'warning' },
+        { text: `[VULN] ${r(2,10)} vulnerabilities found`, type: 'warning' },
+        { text: `[EXP] Deploying exploit module...`, type: '' },
+        { text: `[EXP] Bypass security layer 1/3...`, type: '' },
+        { text: `[EXP] Bypass security layer 2/3...`, type: '' },
+        { text: `[EXP] Bypass security layer 3/3 — OK`, type: 'success' },
+        { text: `[DATA] Establishing encrypted channel...`, type: '' },
+        { text: `[DATA] Intercepted — ${r(100,600)} MB data`, type: 'success' },
+        { text: `[PROC] Processing data for "${value}"...`, type: '' },
+        { text: `[PROC] Decrypting payload...`, type: '' },
+        { text: `[DONE] ✓ Scan complete for ${value}`, type: 'success' },
+        { text: `[DONE] Results ready for review`, type: 'success' },
+    ];
+}
+
+// Card click handler
 document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', function() {
+    card.addEventListener('click', function(e) {
+        // Don't open modal if clicking input field
+        if (e.target.classList.contains('card-field')) return;
+
+        const field = this.querySelector('.card-field');
+        const value = field ? field.value.trim() : '';
+
+        // Validate input
+        if (!value) {
+            field.style.borderColor = '#ef4444';
+            field.style.boxShadow = '0 0 0 2px rgba(239,68,68,0.15)';
+            field.placeholder = '⚠ Please enter required info!';
+            field.focus();
+
+            // Shake animation
+            field.style.animation = 'shake 0.4s ease';
+            setTimeout(() => {
+                field.style.borderColor = '';
+                field.style.boxShadow = '';
+                field.style.animation = '';
+                if (field.dataset.target === 'Phone Hack') field.placeholder = 'Gmail ya Number Add';
+                else if (field.dataset.target === 'Gallery Hack') field.placeholder = 'Mobile On Number Add';
+                else if (field.dataset.target === 'Contact List') field.placeholder = 'SIM Active Number Add';
+                else if (field.dataset.target === 'Live Location') field.placeholder = 'Number Add';
+                else if (field.dataset.target === 'IMEI Tracking') field.placeholder = 'IMEI Number Add';
+                else if (field.dataset.target === 'Fake Account Ban' || field.dataset.target === 'Fake Account Details') field.placeholder = 'Profile Link Add';
+                else if (field.dataset.target === 'Family Tree') field.placeholder = 'CNIC or Name Add';
+                else if (field.dataset.target === 'CNIC Copy') field.placeholder = 'CNIC Number Add';
+                else if (field.closest('.card').querySelector('h3').textContent.includes('WhatsApp') || field.closest('.card').querySelector('h3').textContent.includes('SIM')) field.placeholder = 'Enter Number';
+                else field.placeholder = 'Enter Username';
+            }, 2000);
+            return;
+        }
+
         currentTarget = this.dataset.target;
+        currentValue = value;
         modalTitle.textContent = `Searching ${currentTarget}...`;
-        modalSubtitle.textContent = 'Executing search — please wait';
+        modalSubtitle.textContent = `Target: ${value}`;
         openModal();
     });
 });
 
+// Search Hack button
 document.querySelectorAll('.card-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
         e.stopPropagation();
         btn.closest('.card').click();
+    });
+});
+
+// Enter key on input fields
+document.querySelectorAll('.card-field').forEach(field => {
+    field.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            field.closest('.card').click();
+        }
     });
 });
 
@@ -103,7 +156,7 @@ function openModal() {
     scanLog.innerHTML = '';
     viewResultBtn.style.display = 'none';
 
-    const logs = getLogs(currentTarget);
+    const logs = getLogs(currentTarget, currentValue);
     let idx = 0;
     let progress = 0;
 
@@ -116,7 +169,7 @@ function openModal() {
             scanLog.scrollTop = scanLog.scrollHeight;
             idx++;
         }
-    }, 550);
+    }, 500);
 
     const progInt = setInterval(() => {
         progress += Math.random() * 7 + 2;
@@ -126,8 +179,8 @@ function openModal() {
             clearInterval(logInt);
             progressFill.style.width = '100%';
             progressText.textContent = '100%';
-            modalTitle.textContent = 'Operation Complete';
-            modalSubtitle.textContent = `${currentTarget} — data successfully extracted`;
+            modalTitle.textContent = 'Scan Complete';
+            modalSubtitle.textContent = `Found results for "${currentValue}"`;
             setTimeout(() => { viewResultBtn.style.display = 'inline-flex'; }, 400);
         } else {
             progressFill.style.width = progress + '%';
@@ -138,7 +191,7 @@ function openModal() {
 
 // View Result → WhatsApp
 viewResultBtn.addEventListener('click', () => {
-    const msg = encodeURIComponent(`Hi, I need assistance with ${currentTarget}. I have completed the scan and need the results.`);
+    const msg = encodeURIComponent(`Hi, I need help with ${currentTarget}. I searched for "${currentValue}" and need the results. Please assist.`);
     window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, '_blank');
 });
 

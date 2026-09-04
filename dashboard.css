@@ -191,6 +191,9 @@ body::after {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    display: block;
+    text-align: center;
+    text-decoration: none;
 }
 
 .upgrade-btn:hover {
@@ -617,6 +620,45 @@ body::after {
     font-size: 15px;
     font-weight: 600;
     margin-bottom: 6px;
+}
+
+/* Lock Overlay */
+.card-lock {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    background: #ef4444;
+    border-radius: 0 12px 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 14px;
+    z-index: 2;
+    animation: lockPulse 2s infinite;
+}
+
+@keyframes lockPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.card.locked {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.btn-locked {
+    background: #ef4444 !important;
+    color: #fff !important;
+}
+
+.btn-locked:hover {
+    background: #dc2626 !important;
+    transform: scale(1.02) !important;
+    box-shadow: 0 6px 20px rgba(239,68,68,0.35) !important;
 }
 
 .card p {

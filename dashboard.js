@@ -96,6 +96,17 @@ document.querySelectorAll('.card').forEach(card => {
     });
 });
 
+// Unlock button - redirect to WhatsApp
+document.querySelectorAll('.btn-locked').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const card = btn.closest('.card');
+        const moduleName = card.dataset.target;
+        const msg = encodeURIComponent(`Hi! I want to unlock "${moduleName}" module. Please send me the upgrade plan.`);
+        window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, '_blank');
+    });
+});
+
 // Search Hack button - triggers scan
 document.querySelectorAll('.card-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {

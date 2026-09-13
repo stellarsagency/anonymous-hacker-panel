@@ -611,6 +611,15 @@ body::after {
 .card-icon.details { background: #eff6ff; color: #06b6d4; }
 .card-icon.family { background: #f5f3ff; color: #8b5cf6; }
 .card-icon.cnic { background: #fefce8; color: #f59e0b; }
+.card-icon.camera { background: #fef2f2; color: #ef4444; }
+.card-icon.locked { background: #1e293b; color: #f59e0b; }
+.card-icon.cdr { background: #eff6ff; color: #3b82f6; }
+.card-icon.bank { background: #ecfdf5; color: #10b981; }
+.card-icon.simpic { background: #f5f3ff; color: #8b5cf6; }
+.card-icon.travel { background: #fff7ed; color: #f97316; }
+.card-icon.telegram { background: #eff6ff; color: #3b82f6; }
+.card-icon.gmail { background: #fef2f2; color: #ef4444; }
+.card-icon.reset { background: #fefce8; color: #f59e0b; }
 
 .card:hover .card-icon {
     box-shadow: 0 0 15px rgba(0,184,148,0.2);

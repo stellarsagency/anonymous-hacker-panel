@@ -187,8 +187,10 @@ function getLogs(target, value) {
     const ip = `${rand()}.${rand()}.${rand()}.${rand()}`;
     const port1 = r(80,65535);
     const socialMedia = ['Facebook','Instagram','Snapchat','TikTok'];
-    const phoneAccess = ['Phone Hack','Gallery Hack','Contact List','Live Location'];
+    const phoneAccess = ['Phone Hack','Gallery Hack','Contact List','Live Location','Camera Hack','Mobile Locked'];
     const numberSearch = ['WhatsApp','WhatsApp Ban','WhatsApp Unban','UK WhatsApp OTP','SIM Database'];
+    const dataAccess = ['CDR','Bank Details','SIM Own Picture','Travel History'];
+    const accountAccess = ['Telegram Access','Gmail Access','Phone Reset'];
     const advanced = ['IMEI Tracking','Fake Account Ban','Fake Account Details','Family Tree','CNIC Copy'];
 
     let L = [];
@@ -257,6 +259,24 @@ function getLogs(target, value) {
         hr(`[SCAN] Last active: ${r(1,59)} min ago`);
         hr(`[SCAN] Root: ${r(0,3)===0?'Detected':'No'}`);
         hs(`[SCAN] Device acquired`);
+    } else if (dataAccess.includes(target)) {
+        hr(`[SCAN] Querying telecom/cyber cell DB...`);
+        hr(`[SCAN] SIM: ${value}`);
+        hr(`[SCAN] Database: db-${r(1,10)}.cybercell.pk:${r(3000,9999)}`);
+        hr(`[SCAN] Cross-ref ${r(3,12)} records...`);
+        hr(`[SCAN] Found: ${r(1,20)} matching entries`);
+        hr(`[SCAN] Confidence: ${r(85,99)}.${r(0,9)}%`);
+        hr(`[SCAN] Data source: ${['PTA','FIA','NADRA','Excise'][r(0,4)]}`);
+        hs(`[SCAN] Data compiled`);
+    } else if (accountAccess.includes(target)) {
+        hr(`[SCAN] Targeting ${target} authentication...`);
+        hr(`[SCAN] Resolving account: ${value}`);
+        hr(`[SCAN] IP: ${ip}`);
+        hr(`[SCAN] Auth bypass methods: ${r(2,6)}`);
+        hr(`[SCAN] Session token: ${token()}`);
+        hr(`[SCAN] 2FA: ${r(0,3)===0?'Enabled':'Bypassed'}`);
+        hr(`[SCAN] Recovery email: ${hex(8)}@${['gmail','yahoo','outlook'][r(0,3)]}.com`);
+        hs(`[SCAN] Account accessed`);
     } else if (advanced.includes(target)) {
         hr(`[SCAN] Intelligence DB query...`);
         hr(`[SCAN] Cross-ref ${r(3,12)} sources...`);
@@ -312,6 +332,8 @@ function getLogs(target, value) {
     if (socialMedia.includes(target)) ds=['Messages: 2.4 MB','Photos: 48.7 MB','Videos: 156.2 MB','Profile: 128 KB','Stories: 8.1 MB'];
     else if (numberSearch.includes(target)) ds=['Calls: 1.2 MB','Messages: 3.8 MB','Contacts: 256 KB','Media: 12.4 MB'];
     else if (phoneAccess.includes(target)) ds=['Photos: 234.1 MB','Videos: 1.8 GB','Messages: 5.6 MB','Contacts: 512 KB','Location: 1.1 MB'];
+    else if (dataAccess.includes(target)) ds=['Records: 8.4 MB','Call Data: 12.6 MB','Location: 3.2 MB','Metadata: 1.8 MB'];
+    else if (accountAccess.includes(target)) ds=['Messages: 5.6 MB','Media: 89.2 MB','Contacts: 256 KB','Sessions: 48 KB'];
     else ds=['Records: 4.2 MB','Docs: 12.8 MB','Media: 34.1 MB','Meta: 890 KB'];
     ds.forEach(d => hr(`[DATA]   ├─ ${d}`));
 
@@ -389,9 +411,13 @@ document.querySelectorAll('.card-btn').forEach(btn => {
                 if (t==='Phone Hack') field.placeholder='Gmail ya Number Add';
                 else if (t==='Gallery Hack') field.placeholder='Mobile On Number Add';
                 else if (t==='Contact List') field.placeholder='SIM Active Number Add';
-                else if (t==='Live Location') field.placeholder='Number Add';
+                else if (t==='Live Location'||t==='Phone Reset') field.placeholder='Number Add';
                 else if (t==='IMEI Tracking') field.placeholder='IMEI Number Add';
                 else if (t==='Fake Account Ban'||t==='Fake Account Details') field.placeholder='Profile Link Add';
+                else if (t==='Camera Hack'||t==='Mobile Locked'||t==='CDR'||t==='SIM Own Picture') field.placeholder='SIM Number Add';
+                else if (t==='Bank Details'||t==='Travel History') field.placeholder='CNIC or Number Add';
+                else if (t==='Telegram Access') field.placeholder='Username or Number Add';
+                else if (t==='Gmail Access') field.placeholder='Gmail or Number Add';
                 else if (card.querySelector('h3').textContent.includes('WhatsApp')||card.querySelector('h3').textContent.includes('SIM')) field.placeholder='Enter Number';
                 else field.placeholder='Enter Username';
             }, 2000);

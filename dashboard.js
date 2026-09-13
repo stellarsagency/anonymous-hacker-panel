@@ -6,6 +6,7 @@ if (!sessionStorage.getItem('loggedIn')) {
 const user = sessionStorage.getItem('user') || 'Operator';
 document.getElementById('userName').textContent = user;
 document.getElementById('navUser').textContent = user.toUpperCase();
+document.getElementById('udName').textContent = user;
 
 // Session Timer
 let sessionTime = 1800;
@@ -19,15 +20,197 @@ setInterval(() => {
 }, 1000);
 
 // Logout
-document.getElementById('logoutBtn').addEventListener('click', () => {
+function doLogout() {
     sessionStorage.clear();
     window.location.href = 'index.html';
-});
+}
+document.getElementById('logoutBtn').addEventListener('click', doLogout);
+document.getElementById('udLogout').addEventListener('click', (e) => { e.preventDefault(); doLogout(); });
 
 // Mobile Menu
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('sidebarOverlay');
 document.getElementById('menuToggle').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('open');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('active');
 });
+overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('active');
+});
+
+// User Dropdown
+const userMenu = document.getElementById('userMenu');
+const userDropdown = document.getElementById('userDropdown');
+userMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+    userDropdown.classList.toggle('active');
+    document.getElementById('notifDropdown').classList.remove('active');
+});
+
+// Notification Dropdown
+const notifBtn = document.getElementById('notifBtn');
+const notifDropdown = document.getElementById('notifDropdown');
+notifBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    notifDropdown.classList.toggle('active');
+    userDropdown.classList.remove('active');
+});
+
+// Clear notifications
+document.getElementById('notifClear').addEventListener('click', () => {
+    document.getElementById('notifList').innerHTML = '<div class="notif-item" style="text-align:center;padding:30px;color:var(--text-light);"><p>No notifications</p></div>';
+    document.querySelector('.notif-dot').style.display = 'none';
+});
+
+// Close dropdowns on outside click
+document.addEventListener('click', () => {
+    userDropdown.classList.remove('active');
+    notifDropdown.classList.remove('active');
+});
+
+// Sidebar Menu Active
+document.querySelectorAll('.menu-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+    });
+});
+
+// Search Filter
+const searchInput = document.getElementById('searchInput');
+const noResults = document.getElementById('noResults');
+searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase().trim();
+    const sections = document.querySelectorAll('.section[data-section]');
+    let totalVisible = 0;
+
+    sections.forEach(section => {
+        const cards = section.querySelectorAll('.card');
+        let sectionVisible = 0;
+        cards.forEach(card => {
+            const name = card.dataset.target.toLowerCase();
+            const h3 = card.querySelector('h3').textContent.toLowerCase();
+            const match = !query || name.includes(query) || h3.includes(query);
+            card.classList.toggle('hidden', !match);
+            if (match) sectionVisible++;
+        });
+        section.classList.toggle('hidden', sectionVisible === 0);
+        totalVisible += sectionVisible;
+    });
+
+    noResults.style.display = (query && totalVisible === 0) ? 'block' : 'none';
+});
+
+// Ctrl+K shortcut
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInput.focus();
+    }
+    if (e.key === 'Escape') {
+        searchInput.blur();
+        searchInput.value = '';
+        searchInput.dispatchEvent(new Event('input'));
+    }
+});
+
+// Terminal typing animation
+const commands = [
+    'panel --status',
+    'proxy --check',
+    'node --list',
+    'scan --all',
+    'auth --verify',
+    'enc --test',
+    'db --sync',
+    'log --tail',
+];
+let cmdIdx = 0;
+let charIdx = 0;
+let deleting = false;
+const terminalCmd = document.getElementById('terminalCmd');
+
+function typeTerminal() {
+    const cmd = commands[cmdIdx];
+    if (!deleting) {
+        terminalCmd.textContent = cmd.substring(0, charIdx + 1);
+        charIdx++;
+        if (charIdx === cmd.length) {
+            setTimeout(() => { deleting = true; typeTerminal(); }, 2000);
+            return;
+        }
+        setTimeout(typeTerminal, 60 + Math.random() * 40);
+    } else {
+        terminalCmd.textContent = cmd.substring(0, charIdx);
+        charIdx--;
+        if (charIdx < 0) {
+            deleting = false;
+            charIdx = 0;
+            cmdIdx = (cmdIdx + 1) % commands.length;
+            setTimeout(typeTerminal, 500);
+            return;
+        }
+        setTimeout(typeTerminal, 30);
+    }
+}
+typeTerminal();
+
+// Stats counter animation
+function animateStats() {
+    const scanEl = document.getElementById('totalScans');
+    const userEl = document.getElementById('activeUsers');
+    let scans = 1200;
+    let users = 892;
+
+    setInterval(() => {
+        scans += Math.floor(Math.random() * 3);
+        scanEl.textContent = scans.toLocaleString();
+    }, 5000);
+
+    setInterval(() => {
+        users += Math.random() > 0.5 ? 1 : -1;
+        userEl.textContent = users.toLocaleString();
+    }, 8000);
+}
+animateStats();
+
+// Toast system
+function showToast(type, title, msg) {
+    const container = document.getElementById('toastContainer');
+    const icons = { success: 'fa-check-circle', error: 'fa-xmark-circle', info: 'fa-info-circle', warning: 'fa-triangle-exclamation' };
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `
+        <div class="toast-icon ${type}"><i class="fas ${icons[type]}"></i></div>
+        <div class="toast-text">
+            <span class="toast-title">${title}</span>
+            <span class="toast-msg">${msg}</span>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()"><i class="fas fa-xmark"></i></button>
+    `;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+}
+
+// Add activity to feed
+function addActivity(color, action, detail) {
+    const feed = document.getElementById('activityFeed');
+    const item = document.createElement('div');
+    item.className = 'activity-item';
+    item.style.animation = 'logFade 0.3s ease';
+    item.innerHTML = `
+        <div class="activity-dot ${color}"></div>
+        <div class="activity-info">
+            <span class="activity-action">${action}</span>
+            <span class="activity-detail">${detail}</span>
+        </div>
+        <span class="activity-time">Just now</span>
+    `;
+    feed.insertBefore(item, feed.firstChild);
+    if (feed.children.length > 8) feed.lastChild.remove();
+}
 
 // Modal
 const modal = document.getElementById('scanModal');
@@ -56,11 +239,9 @@ function token() {
     return t;
 }
 
-// Get realistic logs based on target and entered value
 function getLogs(target, value) {
     const isPhone = /^[\d+\-\s()]{7,15}$/.test(value);
     const isEmail = /@/.test(value);
-    const isUsername = !isPhone && !isEmail;
 
     return [
         { text: `[INIT] Module "${target}" loaded`, type: 'info' },
@@ -87,7 +268,7 @@ function getLogs(target, value) {
     ];
 }
 
-// Card click - focus input only
+// Card click - focus input
 document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', function(e) {
         if (e.target.classList.contains('card-btn')) return;
@@ -96,19 +277,23 @@ document.querySelectorAll('.card').forEach(card => {
     });
 });
 
-// Unlock button - redirect to WhatsApp
+// Unlock button → WhatsApp
 document.querySelectorAll('.btn-locked').forEach(btn => {
     btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const card = btn.closest('.card');
         const moduleName = card.dataset.target;
-        const msg = encodeURIComponent(`Hi! I want to unlock "${moduleName}" module. Please send me the upgrade plan.`);
-        window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, '_blank');
+        showToast('warning', 'Premium Module', `"${moduleName}" requires upgrade. Redirecting to WhatsApp...`);
+        setTimeout(() => {
+            const msg = encodeURIComponent(`Hi! I want to unlock "${moduleName}" module. Please send me the upgrade plan.`);
+            window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, '_blank');
+        }, 1000);
     });
 });
 
-// Search Hack button - triggers scan
+// Search Hack button
 document.querySelectorAll('.card-btn').forEach(btn => {
+    if (btn.classList.contains('btn-locked')) return;
     btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const card = btn.closest('.card');
@@ -121,18 +306,18 @@ document.querySelectorAll('.card-btn').forEach(btn => {
             field.placeholder = '⚠ Please enter required info!';
             field.focus();
             field.style.animation = 'shake 0.4s ease';
+            showToast('error', 'Input Required', 'Please enter a username or number first.');
             setTimeout(() => {
                 field.style.borderColor = '';
                 field.style.boxShadow = '';
                 field.style.animation = '';
-                if (card.dataset.target === 'Phone Hack') field.placeholder = 'Gmail ya Number Add';
-                else if (card.dataset.target === 'Gallery Hack') field.placeholder = 'Mobile On Number Add';
-                else if (card.dataset.target === 'Contact List') field.placeholder = 'SIM Active Number Add';
-                else if (card.dataset.target === 'Live Location') field.placeholder = 'Number Add';
-                else if (card.dataset.target === 'IMEI Tracking') field.placeholder = 'IMEI Number Add';
-                else if (card.dataset.target === 'Fake Account Ban' || card.dataset.target === 'Fake Account Details') field.placeholder = 'Profile Link Add';
-                else if (card.dataset.target === 'Family Tree') field.placeholder = 'CNIC or Name Add';
-                else if (card.dataset.target === 'CNIC Copy') field.placeholder = 'CNIC Number Add';
+                const target = card.dataset.target;
+                if (target === 'Phone Hack') field.placeholder = 'Gmail ya Number Add';
+                else if (target === 'Gallery Hack') field.placeholder = 'Mobile On Number Add';
+                else if (target === 'Contact List') field.placeholder = 'SIM Active Number Add';
+                else if (target === 'Live Location') field.placeholder = 'Number Add';
+                else if (target === 'IMEI Tracking') field.placeholder = 'IMEI Number Add';
+                else if (target === 'Fake Account Ban' || target === 'Fake Account Details') field.placeholder = 'Profile Link Add';
                 else if (card.querySelector('h3').textContent.includes('WhatsApp') || card.querySelector('h3').textContent.includes('SIM')) field.placeholder = 'Enter Number';
                 else field.placeholder = 'Enter Username';
             }, 2000);
@@ -144,15 +329,19 @@ document.querySelectorAll('.card-btn').forEach(btn => {
         modalTitle.textContent = `Searching ${currentTarget}...`;
         modalSubtitle.textContent = `Target: ${value}`;
         openModal();
+
+        // Toast + activity
+        showToast('info', 'Scan Started', `Scanning ${currentTarget} for "${value}"`);
+        addActivity('green', 'Scan started', `${currentTarget} — ${value}`);
     });
 });
 
-// Enter key on input fields
+// Enter key on inputs
 document.querySelectorAll('.card-field').forEach(field => {
     field.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            field.closest('.card').click();
+            field.closest('.card').querySelector('.card-btn').click();
         }
     });
 });
@@ -189,6 +378,8 @@ function openModal() {
             progressText.textContent = '100%';
             modalTitle.textContent = 'Scan Complete';
             modalSubtitle.textContent = `Found results for "${currentValue}"`;
+            showToast('success', 'Scan Complete', `Data extracted for "${currentValue}"`);
+            addActivity('green', 'Scan completed', `${currentTarget} — ${currentValue}`);
             setTimeout(() => { viewResultBtn.style.display = 'inline-flex'; }, 400);
         } else {
             progressFill.style.width = progress + '%';
@@ -208,3 +399,8 @@ function closeModal() { modal.classList.remove('active'); }
 document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('modalCancel').addEventListener('click', closeModal);
 modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+// Welcome toast on load
+setTimeout(() => {
+    showToast('success', 'System Online', 'All modules loaded and ready.');
+}, 1000);
